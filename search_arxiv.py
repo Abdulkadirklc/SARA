@@ -3,6 +3,7 @@
 import asyncio
 import json
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeoutError
+import argparse
 
 async def arxiv_arastir_ve_getir(aranacak_terim: str, makale_sayisi: int = 10):
     """
@@ -89,13 +90,21 @@ async def arxiv_arastir_ve_getir(aranacak_terim: str, makale_sayisi: int = 10):
         return toplanan_makaleler
 
 async def main():
-    ARANACAK_TERIM = "large language models"
-    MAKSIMUM_MAKALE = 10
+    # --- YENİ EKLENEN ARGÜMAN PARSER BÖLÜMÜ ---
+    parser = argparse.ArgumentParser(description="Scrape ArxivXplorer for papers based on a query.")
+    parser.add_argument("--query", type=str, required=True, help="The search query for Arxiv.")
+    parser.add_argument("--limit", type=int, default=10, help="The maximum number of papers to retrieve.")
+    args = parser.parse_args()
+    # --- BÖLÜM SONU ---
+
+    # Değişkenleri artık sabit değil, gelen argümanlardan alıyoruz
+    ARANACAK_TERIM = args.query
+    MAKSIMUM_MAKALE = args.limit
+    
     makaleler = await arxiv_arastir_ve_getir(ARANACAK_TERIM, MAKSIMUM_MAKALE)
     if makaleler:
         print("\n--- ARAŞTIRMA SONUÇLARI ---")
-        formatted_json = json.dumps(makaleler, indent=2, ensure_ascii=False)
-        print(formatted_json)
+        # ... (geri kalan kod aynı) ...
         dosya_adi = "arastirma_sonuclari.json"
         with open(dosya_adi, 'w', encoding='utf-8') as f:
             json.dump(makaleler, f, ensure_ascii=False, indent=4)
