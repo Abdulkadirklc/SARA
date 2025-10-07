@@ -1,5 +1,3 @@
-# Dosya Adı: agent.py (NameError Hatası Düzeltilmiş Nihai Versiyon)
-
 import streamlit as st
 import os
 import subprocess
@@ -81,7 +79,7 @@ def load_papers_into_db():
     db = lancedb.connect(DB_URI); db.create_table("papers", data=data_to_add, mode="overwrite")
     st.toast("✅ Knowledge base updated!"); return True
 
-# --- YANLIŞLIKLA SİLİNEN VE GERİ EKLENEN FONKSİYON ---
+# --- Knowledge Base Search ---
 def search_knowledge_base(query: str, limit: int = 10) -> str:
     """Performs a RAG search in the knowledge base."""
     db = lancedb.connect(DB_URI)
@@ -94,7 +92,7 @@ def search_knowledge_base(query: str, limit: int = 10) -> str:
 
     
     return "\n\n---\n\n".join([res['text'] for res in results])
-# --- DÜZELTME SONU ---
+
 
 # --- AGENT FLOWS ---
 
@@ -187,9 +185,8 @@ def run_analysis_flow(user_input: str):
     return final_analysis
 
 def run_chat_flow(user_input: str):
-    """SÜPER GÜÇLÜ SOHBET AKIŞI: Akıllı sorgular üretir ve yanıtı sentezler."""
-    
-    # Adım 1: Akıllı sorgu üretme (Bu kısım zaten iyi çalışıyor)
+
+    # Step 1: Generating smart queries 
     queries_prompt = f"""
     The user is asking a general question or starting a conversation. Analyze their input and generate 2-3 web search queries to find helpful information for a thoughtful response.
     Respond in JSON format with a single key "queries". User Input: "{user_input}"
@@ -199,6 +196,7 @@ def run_chat_flow(user_input: str):
         response_str = run_llm_agent("You are an expert at generating helpful, relevant search queries.", queries_prompt, use_json=True)
         web_queries = json.loads(response_str).get("queries", [])
         if web_queries:
+            # Gives a message in Streamlit UI about the internal step
             st.info(f"**Internal Step:** Thinking and searching the web with generated queries:\n" + "\n".join(f"- `{q}`" for q in web_queries))
             for query in web_queries:
                 web_context += duckduckgo_search(query) + "\n\n"
@@ -207,7 +205,7 @@ def run_chat_flow(user_input: str):
     except (json.JSONDecodeError, KeyError):
         web_context = duckduckgo_search(user_input)
 
-    # Adım 2: Sentezleme Ajanı (YENİ VE GÜÇLÜ PROMPT İLE)
+    # Step 2: Generating response with context
     system_prompt = """
     You are a News Aggregator and Factual Assistant.
     Your SOLE PURPOSE is to answer the user's question by summarizing the information found in the `Web Search Results`.
