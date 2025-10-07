@@ -67,3 +67,35 @@ See `requirements.txt` for Python dependencies.
 
 ## License
 MIT License
+
+---
+## Application Walkthrough
+Below are example scenarios and screenshots illustrating how SARA works in practice:
+
+### 1. Paper Search, Section Extraction & Embedding
+When you search for papers, SARA finds relevant arXiv papers, splits them into sections, and embeds each section into the knowledge base:
+
+![Generating Embeddings](App_images/generating_embeddings.png)
+*Papers are searched, split into sections, and embedded into LanceDB for semantic retrieval.*
+
+### 2. Agentic Analysis: Knowledge Base + Web Search
+When you use `/analysis`, SARA first searches the local knowledge base for relevant information, then generates targeted web queries based on both your question and the local findings. All results are synthesized for a structured answer:
+
+![Agentic Search](App_images/agentic_search.png)
+*The agent first searches the knowledge base, then uses the findings to generate web queries, and finally combines all information for a comprehensive answer.*
+
+#### Example Structured Result
+![Structured Result](App_images/structured_result.png)
+*Final output: A well-structured, referenced answer combining local and web knowledge.*
+
+### 3. Normal Chat Mode
+You can also chat directly with the LLM, without using any agentic workflow:
+
+![Normal Chat](App_images/normal_chat.png)
+*Direct conversation with the LLM*
+
+### 4. Web Knowledge in Chat Mode
+In normal chat mode, SARA can also perform web searches to provide up-to-date information:
+
+![Web Knowledge](App_images/web_knowledge.png)
+*The LLM supplements its answers with real-time web search results for current topics.*
