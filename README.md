@@ -1,4 +1,4 @@
-# SARA: Semi-Agentic Search Agent
+# SARA: Semi-Agentic Research Assistant
 
 This project is an agentic research assistant that searches, extracts, and analyzes academic papers from arXiv using a multi-agent workflow. It combines local paper search, section extraction, vector database (RAG) embedding, and web search to provide synthesized answers to user queries.
 
