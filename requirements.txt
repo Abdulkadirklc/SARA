@@ -1,0 +1,7 @@
+streamlit
+ollama
+lancedb
+ddgs
+playwright
+requests
+beautifulsoup4
