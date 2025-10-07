@@ -39,8 +39,7 @@ async def arxiv_arastir_ve_getir(aranacak_terim: str, makale_sayisi: int = 10):
             await page.wait_for_selector(makale_karti_selector, timeout=30000)
             print("Makale kartları başarıyla bulundu!")
 
-            # --- DÜZELTME BURADA ---
-            # 1. Önce TÜM makale elementlerini al
+            # 1. Get all article elements first
             print("Tüm makale kartları toplanıyor...")
             makale_elementleri = await page.query_selector_all(makale_karti_selector)
             
