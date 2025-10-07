@@ -9,7 +9,6 @@ async def arxiv_arastir_ve_getir(aranacak_terim: str, makale_sayisi: int = 10):
     """
     arxivxplorer.com sitesinde belirtilen terimle arama yapar ve istenen sayıda
     makalenin yapılandırılmış verisini döndürür.
-    (Final Sürüm - Hatalı liste seçimi düzeltildi)
     """
     print(f"'{aranacak_terim}' için araştırma başlatılıyor...")
     
@@ -89,12 +88,12 @@ async def arxiv_arastir_ve_getir(aranacak_terim: str, makale_sayisi: int = 10):
         return toplanan_makaleler
 
 async def main():
-    # --- YENİ EKLENEN ARGÜMAN PARSER BÖLÜMÜ ---
+    
     parser = argparse.ArgumentParser(description="Scrape ArxivXplorer for papers based on a query.")
     parser.add_argument("--query", type=str, required=True, help="The search query for Arxiv.")
     parser.add_argument("--limit", type=int, default=10, help="The maximum number of papers to retrieve.")
     args = parser.parse_args()
-    # --- BÖLÜM SONU ---
+    
 
     # Değişkenleri artık sabit değil, gelen argümanlardan alıyoruz
     ARANACAK_TERIM = args.query
